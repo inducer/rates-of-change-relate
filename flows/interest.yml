@@ -52,7 +52,7 @@ pages:
         * You can use the computer like a pocket calculator, just by entering formulas inside of a `print(...)` statement.
         * You can also see "comments" in action here. A comment is a piece of code that the computer just ignores. We use it to keep track of the number of months.
 
-        Just submit the code below.
+        Just submit the code below and watch what happens.
 
     initial_code:
 
@@ -76,8 +76,8 @@ pages:
         # Using Computers Like a Pocket Calculator
 
         Submit this page to see the output of the code below.
-        Use the output you get to finish the sequence until you
-        have the amount after 8 months.
+        Use the output you get to add more code and finish the sequence until
+        you have printed the amount after 8 months.
 
     setup_code: |
 
@@ -113,7 +113,7 @@ pages:
         amounts = np.asarray(amounts)
 
         # FIXME: This does not provide great feedback
-        feedback.check_numpy_array("printed_numbers", amounts, printed_numbers)
+        feedback.check_numpy_array_allclose("printed_numbers", amounts, printed_numbers)
 
         feedback.finish(1, "Nice job!")
 
@@ -216,7 +216,7 @@ pages:
         amounts = np.asarray(amounts)
 
         # FIXME: This does not provide great feedback
-        feedback.check_numpy_array("printed_numbers", amounts, printed_numbers)
+        feedback.check_numpy_array_allclose("printed_numbers", amounts, printed_numbers)
 
         feedback.finish(1, "Nice job!")
 
@@ -360,7 +360,7 @@ pages:
         amounts = np.asarray(amounts)
 
         # FIXME: This does not provide great feedback
-        feedback.check_numpy_array("printed_numbers", amounts, printed_numbers)
+        feedback.check_numpy_array_allclose("printed_numbers", amounts, printed_numbers)
 
         feedback.finish(1, "Nice job!")
 
