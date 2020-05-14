@@ -54,7 +54,7 @@ pages:
 
         Just submit the code below and watch what happens.
 
-    initial_code:
+    initial_code: |
 
         # after 1 month
         print(1000000 + 1000000 * 0.06 * (1/12))
@@ -133,7 +133,7 @@ pages:
         * We can make up any name we want for them, as long as it consists of only letters (`a`-`z`, `A`-`Z`), numbers (`0`-`9`), and underscores (`_`). You should use no other symbols in your variable names.
         * The "equal sign" `=` is computer-ese for "assign the value on the right to the variable on the left".
 
-        Just submit the code below.
+        Just submit the code below and observe what happens.
 
     initial_code: |
         month0 = 1000000
@@ -195,7 +195,7 @@ pages:
             real_print(*args)
 
     names_for_user: [print]
-    initial_code:
+    initial_code: |
 
         month0 = 1000000
         print(month0)
@@ -234,7 +234,7 @@ pages:
 
         It turns out that we can *change* the value of a variable, even after we've already set it.
 
-        Just submit the code below.
+        Just submit the code below and observe what happens.
 
     initial_code: |
         balance <- 1000000
@@ -342,7 +342,7 @@ pages:
             real_print(*args)
 
     names_for_user: [print]
-    initial_code:
+    initial_code: |
 
         balance = 1000000
         print("after 0 months:", balance)
