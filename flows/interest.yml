@@ -1,0 +1,368 @@
+title: "Computing Interest"
+description: |
+
+    # Computing Interest
+
+rules:
+    start:
+    -
+        may_start_new_session: True
+        may_list_existing_sessions: True
+
+    # Allow students to submit quiz answers before the deadline.
+    # After the deadline, the quiz becomes read-only. (The 'modify'
+    # permission goes away.)
+
+    access:
+    -
+        if_in_progress: true
+        permissions: [view, submit_answer, end_session, see_correctness, change_answer]
+
+    -
+        if_in_progress: false
+        permissions: [view, see_correctness, see_answer_after_submission]
+
+    grade_identifier: interest
+    grade_aggregation_strategy: max_grade
+
+    grading:
+    -   credit_percent: 100
+
+pages:
+
+-
+    type: Page
+    id: welcome
+    content: |
+
+        # Welcome to the "Computing Interest" Activity!
+
+        Don't be scared.
+
+{# {{{ calc demo #}
+
+-
+    type: PythonCodeQuestion
+    timeout: 5
+    id: calculator_demo
+    prompt: |
+
+        # Using Computers Like a Pocket Calculator
+
+        * You can use the computer like a pocket calculator, just by entering formulas inside of a `print(...)` statement.
+        * You can also see "comments" in action here. A comment is a piece of code that the computer just ignores. We use it to keep track of the number of months.
+
+        Just submit the code below.
+
+    initial_code:
+
+        # after 1 month
+        print(1000000 + 1000000 * 0.06 * (1/12))
+
+    test_code: |
+
+        feedback.finish(1, "Nice job!")
+
+{# }}} #}
+
+{# {{{ calc #}
+
+-
+    type: PythonCodeQuestion
+    timeout: 5
+    id: calculator
+    prompt: |
+
+        # Using Computers Like a Pocket Calculator
+
+        Submit this page to see the output of the code below.
+        Use the output you get to finish the sequence until you
+        have the amount after 8 months.
+
+    setup_code: |
+
+        from numbers import Number
+
+        printed_numbers = []
+        real_print = print
+
+        def print(*args):
+            for arg in args:
+                if isinstance(arg, Number):
+                    printed_numbers.append(arg)
+
+            real_print(*args)
+
+    names_for_user: [print]
+    initial_code: |
+
+        print("after 1 month")
+        print(1000000 + 1000000 * 0.06 * (1/12))
+        print("after 2 months")
+        print(1005000 + 1005000 * 0.06 * (1/12))
+        # add more code to get to the amount after 8 months
+
+    test_code: |
+
+        amounts = [1000000]
+        for i in range(8):
+            amounts.append(amounts[-1] + amounts[-1] * 0.06 * (1/12))
+
+        import numpy as np
+        printed_numbers = np.asarray(printed_numbers)
+        amounts = np.asarray(amounts)
+
+        # FIXME: This does not provide great feedback
+        feedback.check_numpy_array("printed_numbers", amounts, printed_numbers)
+
+        feedback.finish(1, "Nice job!")
+
+{# }}} #}
+
+{# {{{ variables demo #}
+
+-
+    type: PythonCodeQuestion
+    timeout: 5
+    id: variables_demo
+    prompt: |
+
+        ## Using Variables
+
+        * To save results of previous calculations, we can use *variables*.
+        * We can make up any name we want for them, as long as it consists of only letters (`a`-`z`, `A`-`Z`), numbers (`0`-`9`), and underscores (`_`). You should use no other symbols in your variable names.
+        * The "equal sign" `=` is computer-ese for "assign the value on the right to the variable on the left".
+
+        Just submit the code below.
+
+    initial_code: |
+        month0 = 1000000
+        print(month0)
+        month1 = month0 + month0 * 0.06 * (1/12)
+        print(month1)
+        month2 <- month1 + month2 * 0.06 * (1/12)
+        print(month2)
+
+    test_code: |
+
+        feedback.finish(1, "Nice job!")
+
+{# }}} #}
+
+{# {{{ variables obs #}
+
+-
+    type: HumanGradedTextQuestion
+    id: variables_obs
+    widget: "editor:markdown"
+    prompt: |
+
+        # Record your Observation
+
+        Describe what operations you think the computer performed on the previous page.
+
+    rubric: |
+
+        (TBD)
+
+{# }}} #}
+
+{# {{{ variables #}
+
+-
+    type: PythonCodeQuestion
+    timeout: 5
+    id: variables
+    prompt: |
+
+        # Using Variables: Your Turn
+
+        Write code using variables to compute the amounts after each month for eight
+        months.
+
+    setup_code: |
+
+        from numbers import Number
+
+        printed_numbers = []
+        real_print = print
+
+        def print(*args):
+            for arg in args:
+                if isinstance(arg, Number):
+                    printed_numbers.append(arg)
+
+            real_print(*args)
+
+    names_for_user: [print]
+    initial_code:
+
+        month0 = 1000000
+        print(month0)
+        month1 = month0 + month0 * 0.06 * (1/12)
+        print(month1)
+        month2 <- month1 + month2 * 0.06 * (1/12)
+        print(month2)
+        # add more code to get to the amount after 8 months
+
+    test_code: |
+
+        amounts = [1000000]
+        for i in range(8):
+            amounts.append(amounts[-1] + amounts[-1] * 0.06 * (1/12))
+
+        import numpy as np
+        printed_numbers = np.asarray(printed_numbers)
+        amounts = np.asarray(amounts)
+
+        # FIXME: This does not provide great feedback
+        feedback.check_numpy_array("printed_numbers", amounts, printed_numbers)
+
+        feedback.finish(1, "Nice job!")
+
+{# }}} #}
+
+{# {{{ variables change demo 1 #}
+
+-
+    type: PythonCodeQuestion
+    timeout: 5
+    id: variables_change_demo_1
+    prompt: |
+
+        # Using Variables that Change
+
+        It turns out that we can *change* the value of a variable, even after we've already set it.
+
+        Just submit the code below.
+
+    initial_code: |
+        balance <- 1000000
+        print(balance)
+        balance <- 1000000 + 1000000 * 0.06 * (1/12)
+        print(balance)
+
+    test_code: |
+
+        feedback.finish(1, "Nice job!")
+
+{# }}} #}
+
+{# {{{ variables change demo obs #}
+
+-
+    type: HumanGradedTextQuestion
+    id: variables_change_obs
+    widget: "editor:markdown"
+    prompt: |
+
+        # Record your Observation
+
+        Describe what operations you think the computer performed on the previous page.
+
+    rubric: |
+
+        (TBD)
+
+{# }}} #}
+
+{# {{{ variables change demo 2 #}
+
+-
+    type: PythonCodeQuestion
+    timeout: 5
+    id: variables_change_demo_2
+    prompt: |
+
+        # Using Variables that Change
+
+        It's the value that was set last that counts. It turns out that that
+        applies even *while* we're setting a new value of the same variable:
+
+        Just submit the code below and observe what happens.
+
+    initial_code: |
+        balance <- 1000000
+        print(balance)
+        balance <- balance + balance * 0.06 * (1/12)
+        print(balance)
+
+    test_code: |
+
+        feedback.finish(1, "Nice job!")
+
+{# }}} #}
+
+{# {{{ variables change demo 2 obs #}
+
+-
+    type: HumanGradedTextQuestion
+    id: variables_change_2_obs
+    widget: "editor:markdown"
+    prompt: |
+
+        # Record your Observation
+
+        Describe what operations you think the computer performed on the previous page.
+
+    rubric: |
+
+        (TBD)
+
+{# }}} #}
+
+{# {{{ variables change #}
+
+-
+    type: PythonCodeQuestion
+    timeout: 5
+    id: variables_change
+    prompt: |
+
+        # Using Variables that Change: Your Turn
+
+        Variables changing value means we can make this much less annoying to
+        carry out, by copy-and-pasting the same line of code eight times.
+
+        Use the code on the prior code page above as a pattern to calculate the
+        balance after eight months.
+
+    setup_code: |
+
+        from numbers import Number
+
+        printed_numbers = []
+        real_print = print
+
+        def print(*args):
+            for arg in args:
+                if isinstance(arg, Number):
+                    printed_numbers.append(arg)
+
+            real_print(*args)
+
+    names_for_user: [print]
+    initial_code:
+
+        balance = 1000000
+        print("after 0 months:", balance)
+
+        # add more code to get to the amount after 8 months
+
+    test_code: |
+
+        amounts = [1000000]
+        for i in range(8):
+            amounts.append(amounts[-1] + amounts[-1] * 0.06 * (1/12))
+
+        import numpy as np
+        printed_numbers = np.asarray(printed_numbers)
+        amounts = np.asarray(amounts)
+
+        # FIXME: This does not provide great feedback
+        feedback.check_numpy_array("printed_numbers", amounts, printed_numbers)
+
+        feedback.finish(1, "Nice job!")
+
+{# }}} #}
+# vim: foldmethod=marker
